@@ -1,3 +1,8 @@
 api:
   dashboard: true # Enable the web UI
 
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: "traefik"
