@@ -1,0 +1,3 @@
+api:
+  dashboard: true # Enable the web UI
+
