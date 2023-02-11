@@ -12,7 +12,7 @@ services:
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
 
     labels:
-      - "traefik.http.routers.traefik.rule=Host(`example.com`)" # Change to your domain
+      - "traefik.http.routers.traefik.rule=Host(`traefik.example.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))" # Change to your domain
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=test:0abc1cb53f390a0d0ea9523bcfc6e445bea04ff7" # Change to your username and password
