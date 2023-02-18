@@ -7,6 +7,14 @@ entryPoints:
   websecure:
     address: ":443"
 
+certificatesResolvers:
+  le:
+    acme:
+      email: "muktadir@programming-hero.com"
+      storage: acme.json
+      httpChallenge:
+        entryPoint: web
+
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
