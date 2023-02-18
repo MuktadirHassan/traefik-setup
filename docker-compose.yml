@@ -5,16 +5,6 @@ services:
     image: traefik:v2.9
     container_name: traefik
 
-    # Either use the following or the traefik.yml file
-    # command:
-    #   - --providers.docker=true
-    #   - --providers.docker.exposedbydefault=false
-    #   - --providers.docker.network=traefik
-    #   - --providers.docker.endpoint=unix:///var/run/docker.sock
-    #   - --api.dashboard=true
-    #   - --entrypoints.web.address=:80
-    #   - --entrypoints.websecure.address=:443
-
     ports:
       - "80:80"
       - "443:443"
