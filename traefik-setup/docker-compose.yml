@@ -4,6 +4,7 @@ services:
   traefik:
     image: traefik:v2.9
     container_name: traefik
+    network_mode: host
 
     ports:
       - "80:80"
@@ -14,6 +15,7 @@ services:
 
       # Use this and a traefik.yml file instead of the command above if you want to use a traefik.yml file for static configuration
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - traefik_ssl_certs:/etc/traefik/acme.json
 
     labels:
       - "traefik.enable=true"
@@ -23,3 +25,7 @@ services:
       - "traefik.http.routers.traefik.tls.certresolver=le"
 #      - "traefik.http.routers.traefik.middlewares=auth"
 #      - "traefik.http.middlewares.auth.basicauth.users=test:0abc1cb53f390a0d0ea9523bcfc6e445bea04ff7" # Change to your username and password
+
+volumes:
+  traefik_ssl_certs:
+    driver: local
