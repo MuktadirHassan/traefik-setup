@@ -10,6 +10,7 @@ entryPoints:
 certificatesResolvers:
   le:
     acme:
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       email: "muktadir@programming-hero.com"
       storage: acme.json
       httpChallenge:
