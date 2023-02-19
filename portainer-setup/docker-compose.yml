@@ -16,18 +16,8 @@ services:
     labels:
       # Frontend
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`hercules.codes`) && PathPrefix(`/portainer`)"
+      - "traefik.http.routers.frontend.rule=Host(`portainer.hercules.codes`)"
       - "traefik.http.routers.frontend.tls.certresolver=le"
-      # Strip prefix
-      - "traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/portainer"
-      - "traefik.http.routers.frontend.middlewares=strip-prefix"
-
-      # # Edge
-      # - "traefik.http.routers.edge.rule=Host(`edge.yourdomain.com`)"
-      # - "traefik.http.routers.edge.entrypoints=websecure"
-      # - "traefik.http.services.edge.loadbalancer.server.port=8000"
-      # - "traefik.http.routers.edge.service=edge"
-      # - "traefik.http.routers.edge.tls.certresolver=leresolver"
 
 networks:
   traefik:
