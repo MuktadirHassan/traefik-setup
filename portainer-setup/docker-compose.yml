@@ -6,8 +6,7 @@ services:
     container_name: portainer
     command: -H unix:///var/run/docker.sock
     restart: always
-    networks:
-      - traefik
+
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -19,7 +18,6 @@ services:
       # Strip prefix
       - "traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/portainer"
       - "traefik.http.routers.frontend.middlewares=strip-prefix"
-      - "traefik.docker.network=traefik"
 
       # # Edge
       # - "traefik.http.routers.edge.rule=Host(`edge.yourdomain.com`)"
