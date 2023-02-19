@@ -19,6 +19,7 @@ services:
       # Strip prefix
       - "traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/portainer"
       - "traefik.http.routers.frontend.middlewares=strip-prefix"
+      - "traefik.docker.network=traefik"
 
       # # Edge
       # - "traefik.http.routers.edge.rule=Host(`edge.yourdomain.com`)"
