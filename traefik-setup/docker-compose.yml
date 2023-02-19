@@ -5,6 +5,9 @@ services:
     image: traefik:v2.9
     container_name: traefik
 
+    networks:
+      - traefik
+
     ports:
       - "80:80"
       - "443:443"
@@ -24,6 +27,10 @@ services:
       - "traefik.http.routers.traefik.tls.certresolver=le"
 #      - "traefik.http.routers.traefik.middlewares=auth"
 #      - "traefik.http.middlewares.auth.basicauth.users=test:0abc1cb53f390a0d0ea9523bcfc6e445bea04ff7" # Change to your username and password
+
+networks:
+  traefik:
+    driver: bridge
 
 volumes:
   traefik_ssl_certs:

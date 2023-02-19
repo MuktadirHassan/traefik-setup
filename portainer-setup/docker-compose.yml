@@ -7,6 +7,9 @@ services:
     command: -H unix:///var/run/docker.sock
     restart: always
 
+    networks:
+      - traefik
+
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -25,6 +28,11 @@ services:
       # - "traefik.http.services.edge.loadbalancer.server.port=8000"
       # - "traefik.http.routers.edge.service=edge"
       # - "traefik.http.routers.edge.tls.certresolver=leresolver"
+
+networks:
+  traefik:
+    external:
+      name: traefik
 
 volumes:
   portainer_data:
