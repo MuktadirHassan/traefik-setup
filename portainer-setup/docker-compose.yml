@@ -30,9 +30,8 @@ services:
       # - "traefik.http.routers.edge.tls.certresolver=leresolver"
 
 networks:
-  traefik:
-    external:
-      name: traefik
+  name: traefik
+  external: true
 
 volumes:
   portainer_data:
