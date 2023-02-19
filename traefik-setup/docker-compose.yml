@@ -17,7 +17,7 @@ services:
 
       # Use this and a traefik.yml file instead of the command above if you want to use a traefik.yml file for static configuration
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
-      - traefik_ssl_certs:/etc/traefik/acme.json
+      - ./letsencrypt:/letsencrypt
 
     labels:
       - "traefik.enable=true"
@@ -31,7 +31,3 @@ services:
 networks:
   traefik:
     driver: bridge
-
-volumes:
-  traefik_ssl_certs:
-    driver: local

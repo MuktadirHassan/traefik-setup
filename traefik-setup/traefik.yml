@@ -17,11 +17,10 @@ certificatesResolvers:
     acme:
       # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Uncomment for testing
       email: muktadir@programming-hero.com
-      storage: /etc/traefik/acme.json
+      storage: /letsencrypt/acme.json
       httpChallenge:
         entryPoint: web
 
 providers:
   docker:
-    endpoint: unix:///var/run/docker.sock
     exposedByDefault: false
