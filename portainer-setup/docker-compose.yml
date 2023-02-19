@@ -18,6 +18,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`portainer.hercules.codes`)"
       - "traefik.http.routers.frontend.tls.certresolver=le"
+      # Port
+      - "traefik.http.services.frontend.loadbalancer.server.port=9000"
 
 networks:
   traefik:
