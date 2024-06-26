@@ -1,0 +1,66 @@
+services:
+  traefik:
+    restart: always
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - traefik-public
+    command:
+      - "--log.level=DEBUG" # comment out for production
+      - "--api.insecure=false"
+      - "--api.dashboard=true"
+      - "--global.sendAnonymousUsage=false"
+      - "--global.checkNewVersion=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=traefik-public"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+
+      - "--certificatesresolvers.myresolver.acme.email=${LETSENCRYPT_EMAIL}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # For testing, comment out for production
+
+    labels:
+      # core configs
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`${DOMAIN_NAME}`) && (PathPrefix(`/traefik`) || PathPrefix(`/api`))"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      # strip prefix for traefik dashboard
+      - "traefik.http.routers.traefik.middlewares=strip-prefix-traefik"
+      - "traefik.http.middlewares.strip-prefix-traefik.stripprefix.prefixes=/traefik"
+
+      # tls configs
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=myresolver"
+
+  # For testing
+  whoami:
+    image: "traefik/whoami"
+    container_name: "whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/whoami`)"
+
+      - "traefik.http.routers.whoami.middlewares=strip-prefix-whoami"
+      - "traefik.http.middlewares.strip-prefix-whoami.stripprefix.prefixes=/whoami"
+      
+      - "traefik.http.routers.whoami.tls=true"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+    networks:
+      - traefik-public
+
+networks:
+  traefik-public:
+    name: traefik-public
